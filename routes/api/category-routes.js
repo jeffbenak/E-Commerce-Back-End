@@ -28,7 +28,7 @@ router.get('/:id', (req, res) => {
   // be sure to include its associated Products
 });
 
-router.post('/', (req, res) => {
+router.post('/' , (req, res) => {
   Category.create(req.body) 
     .then(data => {
       res.status(200).json(data);
@@ -41,18 +41,23 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
   Category.update(req.body,
-    {
+    { 
     where: {
       id: req.params.id,
     },
   },
-  )
+  ).then(function(data){
+    res.status(200).json(data);
+  }).catch(function(err){
+    res.status(500).json(err);
+
+  })
     
   // update a category by its `id` value
 });
 
 router.delete('/:id', (req, res) => {
-  Category.destroy(req.body,
+  Category.destroy(
     {
       where: {
         id: req.params.id,
